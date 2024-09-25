@@ -17,7 +17,6 @@ export const registerUser = createAsyncThunk<
 		toast.success("Регистрация прошла успешно!");
 		return data;
 	} catch (error) {
-		console.error("Ошибка регистрации:", error);
 		toast.error("Не удалось зарегистрироваться");
 		return rejectWithValue("Не удалось зарегистрироваться");
 	}

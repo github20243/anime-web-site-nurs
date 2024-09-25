@@ -3,8 +3,8 @@ import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { useAppSelector, useAppDispatch } from '../../hooks/customHook';
-import { logoutUser } from '../../api/authApi';
-import { toast } from 'react-toastify';
+import { logoutUser } from '../../api/authApi'; // Исправленный импорт
+import { toast } from 'react-toastify'; // Импортируйте Toastify для уведомлений
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -14,8 +14,10 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
     if (logoutUser.fulfilled.match(resultAction)) {
+      // Если выход успешен, перенаправьте пользователя
       navigate('/');
     } else {
+      // Если выход не удался, покажите уведомление об ошибке
       toast.error('Не удалось выйти');
     }
   };
@@ -31,13 +33,13 @@ const Header: React.FC = () => {
               <StyledButton onClick={() => navigate('/signin')} variant="outlined" color="inherit">
                 Sign In
               </StyledButton>
-              <StyledButton onClick={() => navigate('/signup')} variant="outlined" color="inherit">
+              <StyledButton  onClick={() => navigate('/signup')} variant="outlined" color="inherit">
                 Sign Up
               </StyledButton>
             </>
           ) : (
             <>
-              <StyledButton onClick={() => navigate('/profile')} variant="outlined" color="inherit">
+              <StyledButton  onClick={() => navigate('/profile')} variant="outlined" color="inherit">
                 Profile
               </StyledButton>
               <StyledButton onClick={handleLogout} variant="outlined" color="inherit">
@@ -53,7 +55,8 @@ const Header: React.FC = () => {
 
 export default Header;
 
-// Стилизация компонентов остаётся прежней
+// Остальной код для стилизованных компонентов
+
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: theme.palette.primary.main,
   boxShadow: 'none',
