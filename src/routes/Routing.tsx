@@ -43,7 +43,7 @@ export const Routing = () => {
     {
       path: "/",
       element: (
-        <Suspense fallback={<Spinner isLoading={true} />}>
+        <Suspense fallback={<Spinner isLoading={true} />} >
           <Layout>
             <Outlet />
           </Layout>
