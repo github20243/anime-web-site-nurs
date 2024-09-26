@@ -12,12 +12,15 @@ export const getAnimes = createAsyncThunk<
 	{ rejectValue: string }
 >("animes/getAnimes", async (_, { rejectWithValue }) => {
 	try {
-		const response = await fetch(ANIME_CART_URL, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		const response = await fetch(
+			"https://caa3b07d2a4f13be.mokky.dev/anime-videos",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
 		if (!response.ok) {
 			throw new Error(`Ошибка сети: ${response.status} ${response.statusText}`);
