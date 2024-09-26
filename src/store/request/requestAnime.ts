@@ -10,7 +10,7 @@ export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }
   "animes/getAnimes",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch("https://caa3b07d2a4f13be.mokky.dev/anime-videos", {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
