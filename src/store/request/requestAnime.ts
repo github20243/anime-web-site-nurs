@@ -2,11 +2,10 @@ import axios from "axios";
 import { Anime, AnimeInfo, AnimeEpisode } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = import.meta.env.VITE_APP_API_URL;
+const API_URL = import.meta.env.VITE_APP_URL;
 const ANIME_INFO_URL = import.meta.env.VITE_APP_ANIME_INFO_URL;
 const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_EPISODES_VIDEO_URL;
 
-// Получение списка аниме
 export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }>(
   "animes/getAnimes",
   async (_, { rejectWithValue }) => {
@@ -15,22 +14,22 @@ export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
       });
+
       if (!response.ok) {
-        throw new Error('Ошибка сети');
+        return rejectWithValue(`Ошибка сети: ${response.status} ${response.statusText}`);
       }
+
       const data: Anime[] = await response.json();
       return data;
     } catch (error) {
-      console.error("Ошибка при получении аниме:", error);
       return rejectWithValue("Не удалось получить список аниме");
     }
   }
 );
 
-// Получение информации об аниме по ID
+
 export const getAnimeInfo = createAsyncThunk<AnimeInfo, string, { rejectValue: string }>(
   "animes/getAnimeInfo",
   async (animeId, { rejectWithValue }) => {
@@ -44,10 +43,9 @@ export const getAnimeInfo = createAsyncThunk<AnimeInfo, string, { rejectValue: s
   }
 );
 
-// Получение видео-эпизодов по ID аниме
 export const getEpisodes = createAsyncThunk<
   AnimeEpisode[],
-  string, // Change this to string to match the expected animeId type
+  string, 
   { rejectValue: string }
 >(
   "animes/getEpisodes",
@@ -55,7 +53,7 @@ export const getEpisodes = createAsyncThunk<
     try {
       const response = await axios.get<AnimeEpisode[]>(`${EPISODES_VIDEO_URL}/${animeId}/episodes`, { // Correct the URL endpoint
         headers: {
-          'Cache-Control': 'no-cache', // Запрет кэширования
+          'Cache-Control': 'no-cache', 
         },
       });
       return response.data;
