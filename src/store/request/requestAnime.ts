@@ -2,7 +2,6 @@ import axios from "axios";
 import { Anime, AnimeInfo, AnimeEpisode } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const ANIME_CART_URL = import.meta.env.VITE_APP_URL;
 const ANIME_INFO_URL = import.meta.env.VITE_APP_ANIME_INFO_URL;
 const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_EPISODES_VIDEO_URL;
 
