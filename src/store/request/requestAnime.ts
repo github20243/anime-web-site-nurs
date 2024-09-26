@@ -11,11 +11,21 @@ export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }
   "animes/getAnimes",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Anime[]>(API_URL);
-      return response.data;
+      const response = await fetch(API_URL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Ошибка сети');
+      }
+      const data: Anime[] = await response.json();
+      return data;
     } catch (error) {
-      console.error("Error fetching animes:", error);
-      return rejectWithValue("Failed to fetch animes");
+      console.error("Ошибка при получении аниме:", error);
+      return rejectWithValue("Не удалось получить список аниме");
     }
   }
 );

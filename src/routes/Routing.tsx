@@ -8,6 +8,8 @@ import EpisodesPage from "../pages/episodPage/EpisodePage";
 import EpisodePage from "../pages/episodPage/EpisodePage";
 import UserRoute from "./UserRoute";
 import Spinner from "../components/spinner/Spinner";
+import SignIn from "../pages/RegistrationPage/SingIn";  
+import SignUp from "../pages/RegistrationPage/SingUp";
 import { useAppSelector } from '../hooks/customHook'; 
 
 const USER_ROUTES = [
@@ -23,7 +25,18 @@ export const Routing = () => {
 
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const location = useLocation();
-    return isAuthenticated ? children : <Navigate to="/" replace />; // Перенаправляем на главную страницу
+    return isAuthenticated ? children : <Navigate to={`/signup?redirect=${encodeURIComponent(location.pathname)}`} replace />;
+  };
+
+  const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const redirectPath = searchParams.get('redirect') || '/';
+
+    if (isAuthenticated) {
+      return <Navigate to={redirectPath} replace />;
+    }
+    return children;
   };
 
   const router = createBrowserRouter([
@@ -40,6 +53,14 @@ export const Routing = () => {
         ...route,
         element: <ProtectedRoute>{route.element}</ProtectedRoute>
       })),
+    },
+    {
+      path: "/signup",
+      element: <AuthRoute><SignUp /></AuthRoute>,
+    },
+    {
+      path: "/signin",
+      element: <AuthRoute><SignIn /></AuthRoute>,
     },
     {
       path: "*",
