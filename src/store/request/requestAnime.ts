@@ -2,10 +2,9 @@ import axios from "axios";
 import { Anime, AnimeInfo, AnimeEpisode } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = import.meta.env.VITE_APP_URL;
+// const API_URL = import.meta.env.VITE_APP_URL;
 const ANIME_INFO_URL = import.meta.env.VITE_APP_ANIME_INFO_URL;
 const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_EPISODES_VIDEO_URL;
-
 export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }>(
   "animes/getAnimes",
   async (_, { rejectWithValue }) => {
@@ -24,10 +23,12 @@ export const getAnimes = createAsyncThunk<Anime[], void, { rejectValue: string }
       const data: Anime[] = await response.json();
       return data;
     } catch (error) {
+      console.error("Ошибка при получении аниме:", error);
       return rejectWithValue("Не удалось получить список аниме");
     }
   }
 );
+
 
 
 export const getAnimeInfo = createAsyncThunk<AnimeInfo, string, { rejectValue: string }>(
