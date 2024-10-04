@@ -6,7 +6,6 @@ const ANIME_CART_URL = import.meta.env.VITE_APP_URL;
 const ANIME_INFO_URL = import.meta.env.VITE_APP_ANIME_INFO_URL;
 const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_ANIME_EPISODE_VIDEOS_URL;
 
-
 export const getAnimes = createAsyncThunk<
 	Anime[],
 	void,
@@ -63,17 +62,22 @@ export const getEpisodes = createAsyncThunk<
 	{ rejectValue: string }
 >("animes/getEpisodes", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<AnimeEpisode[]>(
-			`${EPISODES_VIDEO_URL}`,
-			{
-				headers: {
-					"Cache-Control": "no-cache",
-				},
-			}
-		);
+		const response = await fetch(`${EPISODES_VIDEO_URL}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Cache-Control": "no-cache",
+			},
+		});
 
-		return response.data;
+		if (!response.ok) {
+			throw new Error(`Ошибка сети: ${response.status} ${response.statusText}`);
+		}
+
+		const data: AnimeEpisode[] = await response.json();
+		return data;
 	} catch (error) {
+		console.error("Ошибка при получении списка эпизодов:", error);
 		return rejectWithValue("Не удалось получить список эпизодов");
 	}
 });
