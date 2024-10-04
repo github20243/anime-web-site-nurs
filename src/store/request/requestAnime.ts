@@ -81,7 +81,6 @@ export const getEpisodes = createAsyncThunk<
 		const data: AnimeEpisode[] = await response.json();
 		return data;
 	} catch (error) {
-		console.error("Ошибка при получении списка эпизодов:", error);
 		return rejectWithValue("Не удалось получить список эпизодов");
 	}
 });
