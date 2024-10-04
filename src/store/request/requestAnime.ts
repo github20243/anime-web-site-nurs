@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Anime, AnimeInfo, AnimeEpisode } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
