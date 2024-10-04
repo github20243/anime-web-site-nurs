@@ -4,7 +4,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const ANIME_CART_URL = import.meta.env.VITE_APP_URL;
 const ANIME_INFO_URL = import.meta.env.VITE_APP_ANIME_INFO_URL;
-const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_EPISODES_VIDEO_URL;
+const EPISODES_VIDEO_URL = import.meta.env.VITE_APP_ANIME_EPISODE_VIDEOS_URL;
+
 
 export const getAnimes = createAsyncThunk<
 	Anime[],
@@ -60,19 +61,19 @@ export const getEpisodes = createAsyncThunk<
 	AnimeEpisode[],
 	string,
 	{ rejectValue: string }
->("animes/getEpisodes", async (animeId, { rejectWithValue }) => {
+>("animes/getEpisodes", async (_, { rejectWithValue }) => {
 	try {
 		const response = await axios.get<AnimeEpisode[]>(
-			`${EPISODES_VIDEO_URL}/${animeId}/episodes`,
+			`${EPISODES_VIDEO_URL}`,
 			{
 				headers: {
 					"Cache-Control": "no-cache",
 				},
 			}
 		);
+
 		return response.data;
 	} catch (error) {
-		console.error("Ошибка при получении эпизодов:", error);
 		return rejectWithValue("Не удалось получить список эпизодов");
 	}
 });

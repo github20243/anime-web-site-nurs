@@ -37,3 +37,11 @@ export interface AnimeEpisode {
   description: string;
   totalEpisodes: number;
 }
+
+export interface YourEpisodeType {
+  episodeNumber: number; 
+  title: string;         
+  description: string;  
+  airDate: string;
+  videoUrl?: string;
+}
