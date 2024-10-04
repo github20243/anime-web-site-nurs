@@ -55,13 +55,18 @@ export const getAnimeInfo = createAsyncThunk<
 	}
 });
 
+
 export const getEpisodes = createAsyncThunk<
 	AnimeEpisode[],
 	string,
 	{ rejectValue: string }
->("animes/getEpisodes", async (_, { rejectWithValue }) => {
+>("animes/getEpisodes", async (animeId, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`${EPISODES_VIDEO_URL}`, {
+		if (!animeId) {
+			return rejectWithValue("ID аниме не задан");
+		}
+
+		const response = await fetch(`${EPISODES_VIDEO_URL}/${animeId}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
