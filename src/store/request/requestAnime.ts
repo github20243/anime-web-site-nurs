@@ -61,23 +61,26 @@ export const getAnimeInfo = createAsyncThunk<
 
 export const getEpisodes = createAsyncThunk(
 	"animes/getEpisodes",
-	 async (id:string, { rejectWithValue }) => {
-	try {
-		const response = await fetch(EPISODES_VIDEO_URL, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await fetch(EPISODES_VIDEO_URL, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 
-		if (!response.ok) {
-			throw new Error(`Ошибка сети: ${response.status} ${response.statusText}`);
+			if (!response.ok) {
+				throw new Error(
+					`Ошибка сети: ${response.status} ${response.statusText}`
+				);
+			}
+
+			const data: AnimeEpisode[] = await response.json();
+			return data;
+		} catch (error) {
+			console.error("Ошибка при получении эпизодов:", error);
+			return rejectWithValue("Не удалось получить эпизоды");
 		}
-
-		const data: AnimeEpisode[] = await response.json();
-		return data;
-	} catch (error) {
-		console.error("Ошибка при получении эпизодов:", error);
-		return rejectWithValue("Не удалось получить эпизоды");
 	}
-});
+);

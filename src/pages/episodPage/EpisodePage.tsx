@@ -28,7 +28,7 @@ const EpisodePage: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getEpisodes(id))
+      dispatch(getEpisodes())
     }
   }, [dispatch, id]);
 
