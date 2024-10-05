@@ -78,9 +78,9 @@ const animeSlice = createSlice({
             )
             .addCase(getEpisodes.rejected, (state, { payload }) => {
                 state.isLoading = false;
-                state.error = payload || "Failed to fetch episodes video";
+                state.error = (payload as string) || "Failed to fetch episodes video"; // Приведение типа payload к строке
             });
     },
 });
 
-export default animeSlice // Добавлен export по умолчанию
+export default animeSlice 
